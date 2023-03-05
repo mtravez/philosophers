@@ -6,7 +6,7 @@
 /*   By: mtravez <mtravez@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/02 14:43:28 by mtravez           #+#    #+#             */
-/*   Updated: 2023/03/04 16:18:45 by mtravez          ###   ########.fr       */
+/*   Updated: 2023/03/05 14:27:19 by mtravez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,28 +17,23 @@ void	*phil_do(void *philo)
 {
 	pthread_mutex_t	mutex;
 	t_phil			*phil;
+	int				ate;
 
 	phil = philo;
+	ate = 0;
 	pthread_mutex_init(&mutex, NULL);
 	while (1)
 	{
 		pthread_mutex_lock(&mutex);
 		if (!phil->fork->in_use && !phil->fork->next->in_use)
 		{
-			phil->fork->in_use = 1;
-			phil->fork->next->in_use = 1;
-			printf("%lu %i has taken a fork\n", get_mil_time(phil->start), phil->phil_id);
-			gettimeofday(&(phil->last_ate), NULL);
-			printf("%lu %i is eating\n", get_mil_time(phil->start), phil->phil_id);
-			while (get_mil_time(phil->last_ate) < phil->dead_time->time_eat);
-			phil->fork->in_use = 0;
-			phil->fork->next->in_use = 0;
-			printf("%lu %i is sleeping\n", get_mil_time(phil->start), phil->phil_id);
-			gettimeofday(&(phil->last_ate), NULL);
-			while (get_mil_time(phil->last_ate) <= phil->dead_time->time_sleep);
+			eat(phil);
+			phil_ate(phil, ++ate);
+			if (!sleep_phil(phil))
+				exit(1);
 			printf("%lu %i is thinking\n", get_mil_time(phil->start), phil->phil_id);
 		}
-		if (get_mil_time(phil->last_ate) >= phil->dead_time->time_starve)
+		if (get_mil_time(phil->last_ate) > phil->dead_time->time_starve)
 		{
 			printf("%lu %i died\n", get_mil_time(phil->start), phil->phil_id);
 			break ;
@@ -54,14 +49,15 @@ t_dead_time	*set_death(void)
 {
 	t_dead_time	*dead;
 	
-	dead = malloc(sizeof(t_dead_time *) + (sizeof(unsigned long) * 3));
+	dead = malloc(sizeof(t_dead_time *) + (sizeof(unsigned long) * 3) + sizeof(int) * 3);
 	if (!dead)
 		return (NULL);
-	dead->max_eat = 0;
+	dead->max_eat = 4;
 	dead->nr_phil = 5;
-	dead->time_eat = 300;
+	dead->phil_ate_max = 0;
+	dead->time_eat = 150;
 	dead->time_sleep = 100;
-	dead->time_starve = 400;
+	dead->time_starve = 500;
 	return (dead);
 }
 

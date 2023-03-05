@@ -1,6 +1,6 @@
 NAME = philo
 
-SRC = philo.c utils.c init_functions.c
+SRC = philo.c utils.c init_functions.c activities.c
 
 #BONUS = checker
 
