@@ -1,12 +1,12 @@
 NAME = philo
 
-SRC = philo.c utils.c init_functions.c activities.c
+SRC = philo.c utils.c init_functions.c activities.c parsing.c
 
 #BONUS = checker
 
 #BONUS_SRC = bonus/instructions.c bonus/checker.c bonus/double_function.c
 
-FLAGS = -Wall -Wextra -Werror -pthread
+FLAGS = -Wall -Wextra -Werror -pthread -fsanitize=address
 
 OBJ = $(SRC:%.c=%.o)
 
