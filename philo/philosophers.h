@@ -6,7 +6,7 @@
 /*   By: mtravez <mtravez@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/04 17:02:01 by mtravez           #+#    #+#             */
-/*   Updated: 2023/03/13 17:10:33 by mtravez          ###   ########.fr       */
+/*   Updated: 2023/03/13 20:30:25 by mtravez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,8 @@
 # include <sys/time.h>
 # include <pthread.h>
 
-typedef	struct s_phil	t_phil;
-typedef	void	(*t_philo_action)(t_phil *phil);
+typedef struct s_phil	t_phil;
+typedef void			(*t_philo_action) (t_phil *phil);
 
 /*
 @param nr the identifying number for this fork
@@ -44,6 +44,9 @@ typedef struct s_dead_time
 {
 	pthread_mutex_t	mutex_ate;
 	pthread_mutex_t	mutex_print;
+	pthread_mutex_t	mutex_dead;
+	int				someone_dead;
+	int				finished_eating;
 	int				max_eat;
 	int				nr_phil;
 	int				phil_ate_max;
@@ -75,7 +78,6 @@ typedef struct s_table
 	t_dead_time		*dead_time;
 	struct timeval	start;
 	pthread_t		*philo;
-	
 }	t_table;
 
 unsigned long	get_mil_time(struct timeval start);
@@ -85,12 +87,15 @@ t_dead_time *dead_time);
 t_dead_time		*init_death(int argc, char **argv);
 void			eat(t_phil *phil);
 void			sleep_phil(t_phil *phil);
-int				phil_ate(t_phil *phil, int ate);
-void			check_hunger(t_phil *phil);
+void			phil_ate(t_phil *phil, int ate);
+int				check_hunger(t_phil *phil);
 int				ft_atoi(const char *str);
 int				ft_isdigit(int c);
 t_table			*threading(int argc, char **argv);
 void			print_mute(char *str, t_phil *phil);
 void			think(t_phil *phil);
+void			free_dead(t_dead_time *dead);
+void			free_forks(t_fork *fork, int nr);
+void			free_table(t_table *table);
 
 #endif

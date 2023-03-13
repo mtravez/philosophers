@@ -6,7 +6,7 @@
 /*   By: mtravez <mtravez@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/02 15:03:25 by mtravez           #+#    #+#             */
-/*   Updated: 2023/03/13 14:59:45 by mtravez          ###   ########.fr       */
+/*   Updated: 2023/03/13 19:26:09 by mtravez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,15 +20,6 @@ unsigned long	get_mil_time(struct timeval start)
 	return ((stop.tv_sec - start.tv_sec) * 1000 + \
 	(stop.tv_usec - start.tv_usec) / 1000);
 }
-
-// void	get_time_diff(int time_ms)
-// {
-// 	struct timeval start;
-	
-// 	gettimeofday(&start, NULL);
-// 	while (get_mil_time(start) < time_ms)
-// 		usleep(100);
-// }
 
 //This function determines whether the given character is a digit
 int	ft_isdigit(int c)

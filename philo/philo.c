@@ -6,7 +6,7 @@
 /*   By: mtravez <mtravez@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/02 14:43:28 by mtravez           #+#    #+#             */
-/*   Updated: 2023/03/13 17:57:17 by mtravez          ###   ########.fr       */
+/*   Updated: 2023/03/13 20:35:32 by mtravez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,21 +26,20 @@ void	*phil_do(void *philo)
 	int		ate;
 
 	phil = philo;
-	ate = 0;
+	ate = 3;
 	pthread_mutex_lock(&phil->fork->mutex);
-	while (1)
+	pthread_mutex_lock(&phil->dead_time->mutex_ate);
+	while (!phil->dead_time->someone_dead && !phil->dead_time->finished_eating)
 	{
-		eat(phil);
-		if (++ate == phil->dead_time->max_eat)
-		{
-			if (phil_ate(phil, ate))
-				break ;
-		}
-		sleep_phil(phil);
-		think(phil);
-		check_hunger(phil);
+		pthread_mutex_unlock(&phil->dead_time->mutex_ate);
+		phil->action(phil);
+		if ((ate / 3) == phil->dead_time->max_eat && (ate % 3) == 0)
+			phil_ate(phil, ate);
+		ate++;
+		pthread_mutex_lock(&phil->dead_time->mutex_ate);
 	}
-	exit(1);
+	pthread_mutex_unlock(&phil->dead_time->mutex_ate);
+	free(phil);
 	return (NULL);
 }
 
@@ -53,6 +52,7 @@ int	sit_phils(t_table *table)
 	i = 0;
 	pthread_mutex_init(&table->dead_time->mutex_ate, NULL);
 	pthread_mutex_init(&table->dead_time->mutex_print, NULL);
+	pthread_mutex_init(&table->dead_time->mutex_dead, NULL);
 	gettimeofday(&table->start, NULL);
 	while (i < table->dead_time->nr_phil)
 	{
@@ -66,7 +66,6 @@ int	sit_phils(t_table *table)
 	return (i);
 }
 
-/*NEED TO FIX: can't use exit() in this project*/
 int	main(int argc, char **argv)
 {
 	t_table	*table;
@@ -82,8 +81,8 @@ int	main(int argc, char **argv)
 	while (i < table->dead_time->nr_phil)
 	{
 		pthread_join((table->philo)[i], NULL);
-		printf("%i thread?\n\n\n", i);
 		i++;
 	}
+	system("leaks philo");
 	return (0);
 }

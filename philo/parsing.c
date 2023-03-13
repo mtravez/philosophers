@@ -6,30 +6,21 @@
 /*   By: mtravez <mtravez@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/05 17:31:43 by mtravez           #+#    #+#             */
-/*   Updated: 2023/03/13 15:05:46 by mtravez          ###   ########.fr       */
+/*   Updated: 2023/03/13 19:21:43 by mtravez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosophers.h"
 
-t_table *malloc_table(t_fork *fork, t_dead_time *dead)
+t_table	*malloc_table(t_fork *fork, t_dead_time *dead)
 {
 	t_table		*table;
 
-	table = malloc (sizeof(fork) + sizeof(dead) + sizeof(t_table *) + sizeof(struct timeval));
+	table = malloc (sizeof(fork) + sizeof(dead) + sizeof(t_table *) \
+	+ sizeof(struct timeval));
 	if (!table)
 		return (NULL);
 	return (table);
-}
-
-pthread_t	*init_thread_array(int nr)
-{
-	pthread_t	*phil;
-
-	phil = malloc(sizeof(pthread_t *) * nr);
-	if (!phil)
-		return (NULL);
-	return (phil);
 }
 
 t_table	*set_table(t_fork *fork, t_dead_time *dead)
@@ -39,8 +30,7 @@ t_table	*set_table(t_fork *fork, t_dead_time *dead)
 	table = malloc_table(fork, dead);
 	if (!table)
 		return (NULL);
-	// table->philo = malloc(sizeof(pthread_t *) * dead->nr_phil);
-	table->philo = init_thread_array(dead->nr_phil);
+	table->philo = malloc(sizeof(pthread_t *) * dead->nr_phil);
 	if (!table->philo)
 		return (NULL);
 	table->dead_time = dead;
