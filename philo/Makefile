@@ -6,7 +6,7 @@ SRC = philo.c utils.c init_functions.c activities.c parsing.c
 
 #BONUS_SRC = bonus/instructions.c bonus/checker.c bonus/double_function.c
 
-FLAGS = -Wall -Wextra -Werror -pthread -fsanitize=address
+FLAGS = -Wall -Wextra -Werror -pthread
 
 OBJ = $(SRC:%.c=%.o)
 

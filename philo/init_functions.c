@@ -6,7 +6,7 @@
 /*   By: mtravez <mtravez@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/03 19:59:57 by mtravez           #+#    #+#             */
-/*   Updated: 2023/03/05 20:32:16 by mtravez          ###   ########.fr       */
+/*   Updated: 2023/03/13 15:14:07 by mtravez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,10 @@ t_fork	*set_forks(int nr)
 	int		i;
 
 	fork = new_fork();
+	if (!fork)
+	{
+		return (NULL);
+	}
 	temp = fork;
 	i = 1;
 	fork->nr = i;
@@ -56,10 +60,12 @@ t_phil	*init_phil(t_fork *fork, struct timeval start, t_dead_time *dead_time)
 		return (NULL);
 	}
 	phil->fork = fork;
+	// printf("%i\n", fork->nr);
 	phil->start = start;
-	phil->last_ate = start;
+	gettimeofday(&phil->last_ate, NULL);
 	phil->dead_time = dead_time;
 	phil->phil_id = fork->nr;
+	// phil->action = &eat;
 	return (phil);
 }
 
@@ -78,10 +84,11 @@ t_dead_time	*init_death(int argc, char **argv)
 				return (NULL);
 	}
 	death = malloc(sizeof(t_dead_time *) + (sizeof(unsigned long) * 3) \
-	+ sizeof(int) * 3 + sizeof(pthread_mutex_t));
+	+ sizeof(int) * 3 + sizeof(pthread_mutex_t) * 2);
 	if (!death)
 		return (NULL);
 	death->nr_phil = ft_atoi(argv[1]);
+	// printf("{%i}\n", death->nr_phil);
 	death->time_starve = ft_atoi(argv[2]);
 	death->time_eat = ft_atoi(argv[3]);
 	death->time_sleep = ft_atoi(argv[4]);
