@@ -6,7 +6,7 @@
 /*   By: mtravez <mtravez@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/09 15:36:41 by mtravez           #+#    #+#             */
-/*   Updated: 2023/03/14 16:15:49 by mtravez          ###   ########.fr       */
+/*   Updated: 2023/03/16 18:27:58 by mtravez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,5 +41,7 @@ void	free_table(t_table *table)
 {
 	free_forks(table->fork, table->dead_time->nr_phil);
 	free_dead(table->dead_time);
+	free(table->phils);
+	free(table->philo);
 	free(table);
 }

@@ -6,7 +6,7 @@
 /*   By: mtravez <mtravez@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/05 17:31:43 by mtravez           #+#    #+#             */
-/*   Updated: 2023/03/14 19:47:56 by mtravez          ###   ########.fr       */
+/*   Updated: 2023/03/16 18:52:23 by mtravez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,18 +45,6 @@ void	sit_phils(t_table	*table)
 		i++;
 		temp = temp->next;
 	}
-}
-
-int	check_floor(t_dead_time *dead)
-{
-	pthread_mutex_lock(&dead->mutex_ate);
-	if (dead->finished_eating || dead->someone_dead)
-	{
-		pthread_mutex_unlock(&dead->mutex_ate);
-		return (1);
-	}
-	pthread_mutex_unlock(&dead->mutex_ate);
-	return (0);
 }
 
 /*This function initializes the fork, common dead_time and table

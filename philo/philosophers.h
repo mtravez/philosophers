@@ -6,7 +6,7 @@
 /*   By: mtravez <mtravez@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/04 17:02:01 by mtravez           #+#    #+#             */
-/*   Updated: 2023/03/14 19:48:13 by mtravez          ###   ########.fr       */
+/*   Updated: 2023/03/16 18:56:07 by mtravez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,5 +114,6 @@ void			free_forks(t_fork *fork, int nr);
 void			free_table(t_table *table);
 void			sit_phils(t_table	*table);
 int				check_floor(t_dead_time *dead);
+int				death_bringer(t_table *table);
 
 #endif
