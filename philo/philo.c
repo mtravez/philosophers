@@ -6,7 +6,7 @@
 /*   By: mtravez <mtravez@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/02 14:43:28 by mtravez           #+#    #+#             */
-/*   Updated: 2023/03/17 17:25:55 by mtravez          ###   ########.fr       */
+/*   Updated: 2023/03/18 15:37:43 by mtravez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,5 +94,6 @@ int	main(int argc, char **argv)
 		return (1);
 	}
 	free_table(table);
+	system("leaks philo");
 	return (0);
 }

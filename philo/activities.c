@@ -6,7 +6,7 @@
 /*   By: mtravez <mtravez@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/04 17:37:45 by mtravez           #+#    #+#             */
-/*   Updated: 2023/03/17 17:20:13 by mtravez          ###   ########.fr       */
+/*   Updated: 2023/03/18 20:36:40 by mtravez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,17 +25,14 @@ void	eat(t_phil *phil)
 		return ;
 	}
 	print_mute("has taken a fork", phil);
-	if (phil->dead_time->nr_phil != 1)
+	pthread_mutex_lock(&(phil->fork->next->mutex));
+	if (check_floor(phil->dead_time))
 	{
-		pthread_mutex_lock(&(phil->fork->next->mutex));
-		if (check_floor(phil->dead_time))
-		{
-			pthread_mutex_unlock(&phil->fork->next->mutex);
-			pthread_mutex_unlock(&phil->fork->mutex);
-			return ;
-		}
-		print_mute("has taken a fork", phil);
+		pthread_mutex_unlock(&phil->fork->next->mutex);
+		pthread_mutex_unlock(&phil->fork->mutex);
+		return ;
 	}
+	print_mute("has taken a fork", phil);
 	gettimeofday(&(phil->last_ate), NULL);
 	print_mute("is eating", phil);
 	while (get_mil_time(phil->last_ate) < phil->dead_time->time_eat)
@@ -52,9 +49,11 @@ and it will also be checking if the philosopher died. It then will
 set the phil's action to think*/
 void	sleep_phil(t_phil *phil)
 {
+	struct timeval	sleepy_time;
+
 	print_mute("is sleeping", phil);
-	gettimeofday(&(phil->last_ate), NULL);
-	while (get_mil_time(phil->last_ate) < phil->dead_time->time_sleep)
+	gettimeofday(&sleepy_time, NULL);
+	while (get_mil_time(sleepy_time) < phil->dead_time->time_sleep)
 		usleep(100);
 	phil->action = think;
 }
@@ -78,6 +77,7 @@ int	check_hunger(t_phil *phil)
 	if (get_mil_time(phil->last_ate) >= phil->dead_time->time_starve)
 	{
 		print_mute("died", phil);
+		pthread_mutex_unlock(&phil->fork->mutex);
 		phil->dead_time->someone_dead = 1;
 		pthread_mutex_unlock(&phil->dead_time->mutex_dead);
 		return (1);
