@@ -6,7 +6,7 @@
 /*   By: mtravez <mtravez@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/02 14:43:28 by mtravez           #+#    #+#             */
-/*   Updated: 2023/03/16 18:52:09 by mtravez          ###   ########.fr       */
+/*   Updated: 2023/03/17 17:25:55 by mtravez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ void	*phil_do(void *philo)
 	while (!check_floor(phil->dead_time))
 	{
 		phil->action(phil);
+		usleep(100);
 		if ((ate / 3) == phil->dead_time->max_eat && (ate % 3) == 0)
 			phil_ate(phil, ate);
 		ate++;

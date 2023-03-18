@@ -2,15 +2,9 @@ NAME = philo
 
 SRC = philo.c utils.c init_functions.c activities.c parsing.c free_stuff.c perm_thread.c
 
-#BONUS = checker
-
-#BONUS_SRC = bonus/instructions.c bonus/checker.c bonus/double_function.c
-
 FLAGS = -Wall -Wextra -Werror -pthread
 
 OBJ = $(SRC:%.c=%.o)
-
-#OBJ_BONUS = $(BONUS_SRC:%.c=%.o)
 
 all: $(NAME)
 

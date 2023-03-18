@@ -6,7 +6,7 @@
 /*   By: mtravez <mtravez@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/04 17:37:45 by mtravez           #+#    #+#             */
-/*   Updated: 2023/03/15 11:56:30 by mtravez          ###   ########.fr       */
+/*   Updated: 2023/03/17 17:20:13 by mtravez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,6 +86,10 @@ int	check_hunger(t_phil *phil)
 	return (0);
 }
 
+/*This function is called whenever a philosopher has eaten the minimum
+required times and adds one to the number of philosophers who have
+already eaten this many times. When all the philosophers have eaten the
+required amount, the variable finished eating is changed to 1.*/
 void	phil_ate(t_phil *phil, int ate)
 {
 	if (phil->dead_time->max_eat > 0 && ate > 0)

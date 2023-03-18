@@ -6,12 +6,14 @@
 /*   By: mtravez <mtravez@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/02 15:03:25 by mtravez           #+#    #+#             */
-/*   Updated: 2023/03/13 19:26:09 by mtravez          ###   ########.fr       */
+/*   Updated: 2023/03/17 14:01:24 by mtravez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosophers.h"
 
+/*This function gives the time in milliseconds between the start
+time given as a parameter and the current time*/
 unsigned long	get_mil_time(struct timeval start)
 {
 	struct timeval	stop;

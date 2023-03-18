@@ -6,7 +6,7 @@
 /*   By: mtravez <mtravez@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/05 17:31:43 by mtravez           #+#    #+#             */
-/*   Updated: 2023/03/16 18:52:23 by mtravez          ###   ########.fr       */
+/*   Updated: 2023/03/17 15:14:12 by mtravez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,15 +23,25 @@ t_table	*set_table(t_fork *fork, t_dead_time *dead)
 	if (!table)
 		return (NULL);
 	table->phils = malloc(sizeof(t_phil *) * dead->nr_phil);
-	table->philo = malloc(sizeof(pthread_t *) * dead->nr_phil);
-	if (!table->philo || !table->phils)
+	if (!table->phils)
+	{
+		free(table);
 		return (NULL);
+	}
+	table->philo = malloc(sizeof(pthread_t *) * dead->nr_phil);
+	if (!table->philo)
+	{
+		free(table->phils);
+		free(table);
+		return (NULL);
+	}
 	table->dead_time = dead;
 	table->fork = fork;
 	gettimeofday(&(table->start), NULL);
 	return (table);
 }
 
+/*This function initializes the philosophers inside the table.*/
 void	sit_phils(t_table	*table)
 {
 	int		i;
@@ -62,7 +72,10 @@ t_table	*threading(int argc, char **argv)
 		return (NULL);
 	fork = set_forks(dead->nr_phil);
 	if (!fork)
+	{
+		free_dead(dead);
 		return (NULL);
+	}
 	table = set_table(fork, dead);
 	return (table);
 }
