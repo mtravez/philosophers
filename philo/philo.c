@@ -6,7 +6,7 @@
 /*   By: mtravez <mtravez@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/02 14:43:28 by mtravez           #+#    #+#             */
-/*   Updated: 2023/03/18 15:37:43 by mtravez          ###   ########.fr       */
+/*   Updated: 2023/03/22 16:53:18 by mtravez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,22 +78,21 @@ int	main(int argc, char **argv)
 	if (!table)
 		return (1);
 	if (table->dead_time->max_eat == 0)
+	{
+		free_table(table);
 		return (0);
+	}
 	i = start_phils(table);
 	if (!i)
 		return (1);
 	i = 0;
 	while (i < table->dead_time->nr_phil)
-	{
-		pthread_join((table->philo)[i], NULL);
-		i++;
-	}
+		pthread_join((table->philo)[i++], NULL);
 	if (table->dead_time->someone_dead)
 	{
 		free_table(table);
 		return (1);
 	}
 	free_table(table);
-	system("leaks philo");
 	return (0);
 }

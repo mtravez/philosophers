@@ -6,7 +6,7 @@
 /*   By: mtravez <mtravez@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/05 17:31:43 by mtravez           #+#    #+#             */
-/*   Updated: 2023/03/17 15:14:12 by mtravez          ###   ########.fr       */
+/*   Updated: 2023/03/22 16:56:43 by mtravez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,5 +77,10 @@ t_table	*threading(int argc, char **argv)
 		return (NULL);
 	}
 	table = set_table(fork, dead);
+	if (!table)
+	{
+		free_forks(fork, dead->nr_phil);
+		free_dead(dead);
+	}
 	return (table);
 }

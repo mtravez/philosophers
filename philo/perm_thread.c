@@ -6,7 +6,7 @@
 /*   By: mtravez <mtravez@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/16 18:51:53 by mtravez           #+#    #+#             */
-/*   Updated: 2023/03/18 15:24:02 by mtravez          ###   ########.fr       */
+/*   Updated: 2023/03/22 13:33:37 by mtravez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,6 @@ void	*bring_death(void *phil_array)
 		{
 			if (check_floor(dead) || check_hunger(phils[i]))
 				return (NULL);
-			usleep(100);
 			i++;
 		}
 	}

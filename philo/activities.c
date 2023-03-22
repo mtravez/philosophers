@@ -6,7 +6,7 @@
 /*   By: mtravez <mtravez@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/04 17:37:45 by mtravez           #+#    #+#             */
-/*   Updated: 2023/03/18 20:36:40 by mtravez          ###   ########.fr       */
+/*   Updated: 2023/03/22 16:00:42 by mtravez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,12 +33,12 @@ void	eat(t_phil *phil)
 		return ;
 	}
 	print_mute("has taken a fork", phil);
+	usleep(100);
 	gettimeofday(&(phil->last_ate), NULL);
 	print_mute("is eating", phil);
 	while (get_mil_time(phil->last_ate) < phil->dead_time->time_eat)
-		usleep(100);
-	if (phil->dead_time->nr_phil != 1)
-		pthread_mutex_unlock(&phil->fork->next->mutex);
+		usleep(50);
+	pthread_mutex_unlock(&phil->fork->next->mutex);
 	pthread_mutex_unlock(&phil->fork->mutex);
 	phil->action = sleep_phil;
 }
@@ -54,7 +54,7 @@ void	sleep_phil(t_phil *phil)
 	print_mute("is sleeping", phil);
 	gettimeofday(&sleepy_time, NULL);
 	while (get_mil_time(sleepy_time) < phil->dead_time->time_sleep)
-		usleep(100);
+		usleep(50);
 	phil->action = think;
 }
 

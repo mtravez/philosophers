@@ -6,7 +6,7 @@
 /*   By: mtravez <mtravez@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/03 19:59:57 by mtravez           #+#    #+#             */
-/*   Updated: 2023/03/14 15:59:40 by mtravez          ###   ########.fr       */
+/*   Updated: 2023/03/22 16:54:40 by mtravez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,10 @@ t_fork	*set_forks(int nr)
 		temp->next = new_fork();
 		temp = temp->next;
 		if (!temp)
+		{
+			free_forks(fork, i - 1);
 			return (NULL);
+		}
 		temp->nr = i;
 	}
 	temp->next = fork;
